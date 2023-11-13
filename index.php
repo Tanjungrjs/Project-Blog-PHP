@@ -1,4 +1,7 @@
-<?php include ('components/header.php') ?>
+<?php
+ include ('components/header.php');
+ $last_post = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM post INNER JOIN user ON post.user_id=user.id ORDER BY post.id DESC LIMIT 1"));
+ ?>
 
     <header class="py-5">
         <div class="container">
@@ -27,40 +30,23 @@
     <main>
         <section class="satu py-5">
             <div class="container">
-                <a href="#" class="row align-items-center hero-post">
+                <a href="detail.php?slug=<?= $last_post['slug'] ?>" class="row align-items-center hero-post">
                     <div class="col-md-6">
-                        <img src="assets/img/post-1.jpg" alt="" class="rounded-3 mb-3 hero-post-img">
+                        <img src="assets/img/post/<?= $last_post['image'] ?>" alt="" class="rounded-3 mb-3 hero-post-img">
                     </div>
                     <div class="col-md-6">
                         <span class="bg-light rounded p-2 fw-bold text-primary category">The Newest</span>
                         <h2 class="hero-post-title text-primary text-capitalize mt-3">
-                            Turnamen Futsal PT. Sinar Mutiara Cakrabuana 2023
+                        <?= $last_post['title'] ?>
                         </h2>
                         <p class="text-secondary">
-                            PT. Sinar Mutiara Cakrabuana mengadakan kembali SMC FUTSAL CUP untuk yang ke 5 kalinya,
-                            setelah 3 tahun vakum karena pandemi. Dan pada tahun ini tradisi untuk pempertemukan jawara-
-                            jawara futsal dikawasan Industri terbesar di Indonesia di sambut dengan antusias yang sangat
-                            luar biasa.
-
-                            Kurang lebih 130 team dari kawasan industri terbesar ikut serta seperti PT Gajah Tunggal,
-                            TACI,
-                            PT
-                            Aisan Nasmoco, PT Musashi dan lainnya. Turnamen kali ini melakukan perluasan area yang
-                            sebelumnya hanya meliputi 4 area jabodetabek menjadi 6 area yaitu Tangerang, Bogor, Bekasi,
-                            Karawang, Bandung & Semarang.
-
-                            Semangat kebersamaan dan jalinan antar perusahaan sangat terasa. Selain dari persaingan di
-                            lapangan futsal, turnamen ini juga menjadi kesempatan bagi para karyawan untuk saling
-                            berinteraksi dan memperkuat hubungan antar perusahaan dalam suasana santai.
-
-                            Turnamen SMC Futsal Championship 2023 merupakan contoh sempurna bagaimana olahraga dapat
-                            mengintegrasikan semangat kompetisi dengan kerjasama dan kebersamaan dalam dunia bisnis.
+                        <?= (str_word_count($last_post['body']) > 60 ? substr($last_post['body'], 0, 200) . "....." : $last_post['body']) ?>
                         </p>
                         <div class="d-flex align-item-center gap-3">
-                            <img src="assets/img/avatar.jpg" class="avatar rounded-circle" alt="">
+                            <img src="assets/img/user/<?= $last_post['photo'] ?>" class="avatar rounded-circle" alt="">
                             <div class="profile">
-                            <p class="m-0 text-primary">Tanjung Madu S</p>
-                            <p class="m-0 text-secondary" style="font-size: 14px;">Web Developer</p>
+                            <p class="m-0 text-primary"><?= $last_post['name'] ?></p>
+                            <p class="m-0 text-secondary" style="font-size: 14px;"><?= $last_post['email'] ?></p>
                             </div>
                         </div>
                     </div>
@@ -71,84 +57,34 @@
         <section class="dua py-5">
             <div class="container">
                 <div class="row">
+                   <?php 
+                    $query = mysqli_query($connect, "SELECT * FROM post INNER JOIN user ON post.user_id=user.id ORDER BY post.id DESC");
+                    while($data = mysqli_fetch_array($query)) {
+                   ?>
+                    
                     <div class="col-md-4">
-                        <a href="#" class="card card-post border-0 rounded-3 mb-3">
-                            <img src="assets/img/post-1.jpg" alt="" class="card-img-top">
+                        <a href="detail.php?slug=<?= $data['slug']?>" class="card card-post border-0 rounded-3 mb-3">
+                            <img src="assets/img/post/<?= $data['image']?>" alt="" class="card-img-top">
 
                             <div class="card-body">
                                 <span class="bg-light rounded p-2 fw-bold text-primary category">The Newest</span>
                                 <h2 class="card-post-title text-primary text-capitalize mt-3">
-                                    Turnamen Futsal PT. Sinar Mutiara Cakrabuana 2023
+                                <?= $data['title']?>
                                 </h2>
                                 <p class="text-secondary">
-                                    PT. Sinar Mutiara Cakrabuana mengadakan kembali SMC FUTSAL CUP untuk yang ke 5
-                                    kalinya,
-                                    setelah 3 tahun vakum karena pandemi. Dan pada tahun ini tradisi untuk pempertemukan
-                                    jawara-jawara futsal dikawasan Industri terbesar di Indonesia di sambut dengan
-                                    antusias
-                                    yang sangat luar biasa.
-
+                                <?= (str_word_count($data['body']) > 60 ? substr($data['body'], 0, 200) . "....." : $data['body']) ?>
                                 </p>
                                 <div class="d-flex align-item-center gap-3">
-                                    <img src="assets/img/avatar.jpg" class="avatar rounded-circle" alt="">
-                                    <p class="m-0 text-primary">Tanjung Madu S</p>
-                                    <p class="m-0 text-secondary" style="font-size: 14px;">Web Developer</p>
-                                </div>
+                            <img src="assets/img/user/<?= (!$data['photo']) ? 'avatar.jpg':$data['photo'] ?>" class="avatar rounded-circle" alt="">
+                            <div class="profile">
+                            <p class="m-0 text-primary"><?= $data['name'] ?></p>
+                            <p class="m-0 text-secondary" style="font-size: 14px;"><?= $data['email'] ?></p>
+                            </div>
+                        </div> 
                             </div>
                         </a>
                     </div>
-                    <div class="col-md-4">
-                        <a href="#" class="card card-post border-0 rounded-3 mb-3">
-                            <img src="assets/img/post-1.jpg" alt="" class="card-img-top">
-
-                            <div class="card-body">
-                                <span class="bg-light rounded p-2 fw-bold text-primary category">The Newest</span>
-                                <h2 class="card-post-title text-primary text-capitalize mt-3">
-                                    Turnamen Futsal PT. Sinar Mutiara Cakrabuana 2023
-                                </h2>
-                                <p class="text-secondary">
-                                    PT. Sinar Mutiara Cakrabuana mengadakan kembali SMC FUTSAL CUP untuk yang ke 5
-                                    kalinya,
-                                    setelah 3 tahun vakum karena pandemi. Dan pada tahun ini tradisi untuk pempertemukan
-                                    jawara-jawara futsal dikawasan Industri terbesar di Indonesia di sambut dengan
-                                    antusias
-                                    yang sangat luar biasa.
-
-                                </p>
-                                <div class="d-flex align-item-center gap-3">
-                                    <img src="assets/img/avatar.jpg" class="avatar rounded-circle" alt="">
-                                    <p class="m-0 text-primary">Tanjung Madu S</p>
-                                    <p class="m-0 text-secondary" style="font-size: 14px;">Web Developer</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-4">
-                        <a href="#" class="card card-post border-0 rounded-3 mb-3">
-                            <img src="assets/img/post-1.jpg" alt="" class="card-img-top">
-
-                            <div class="card-body">
-                                <span class="bg-light rounded p-2 fw-bold text-primary category">The Newest</span>
-                                <h2 class="card-post-title text-primary text-capitalize mt-3">
-                                    Turnamen Futsal PT. Sinar Mutiara Cakrabuana 2023
-                                </h2>
-                                <p class="text-secondary">
-                                    PT. Sinar Mutiara Cakrabuana mengadakan kembali SMC FUTSAL CUP untuk yang ke 5
-                                    kalinya,
-                                    setelah 3 tahun vakum karena pandemi. Dan pada tahun ini tradisi untuk pempertemukan
-                                    jawara-jawara futsal dikawasan Industri terbesar di Indonesia di sambut dengan
-                                    antusias
-                                    yang sangat luar biasa.
-
-                                </p>
-                                <div class="d-flex align-item-center gap-3">
-                                    <img src="assets/img/avatar.jpg" class="avatar rounded-circle" alt="">
-                                    <p class="m-0 text-primary">Tanjung Madu S</p>
-                                    <p class="m-0 text-secondary" style="font-size: 14px;">Web Developer</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                    <?php }?>
                 </div>
             </div>
         </section>

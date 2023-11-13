@@ -4,6 +4,8 @@ include('../config/connect.php');
 if(!isset($_SESSION['user_id'])) {
     header('location:../login.php');
 }
+
+$user_logged = mysqli_fetch_array(mysqli_query($connect, "SELECT * FROM user WHERE id = '$_SESSION[user_id]'"))
 ?>
 
 
@@ -37,7 +39,7 @@ if(!isset($_SESSION['user_id'])) {
                 </ul>
                 <ul class="navbar-nav gap-3 ">
                     <li class="nav-item">
-                        <p class="nav-link active">Hi, Tanjung Madu Saputra</p>
+                        <p class="nav-link active">Hi, <?php echo $user_logged['name'] ?> </p>
                     </li>
                     <li class="nav-item"><a href="php/logout.php" class="nav-link">Logout</a></li>
                 </ul>

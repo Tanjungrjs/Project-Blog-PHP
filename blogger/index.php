@@ -4,7 +4,7 @@ $title = 'Dashboard' ;
 ?>
 <section class="py-5">
     <div class="container">
-        <h2 class="section-title text-primary">Welcome Back, Tanjung Madu Saputra</h2>
+        <h2 class="section-title text-primary">Welcome Back, <?php echo $user_logged['name']?> </h2>
     </div>
 </section>
 

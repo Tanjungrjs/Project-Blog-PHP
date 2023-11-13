@@ -20,25 +20,22 @@ include('components/header.php');
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>  
+                <tbody>
+                    <?php
+                    $no = 1;
+                    $query = mysqli_query($connect, "SELECT * FROM post WHERE user_id = '$_SESSION[user_id]'");
+                    while($data = mysqli_fetch_array($query)){
+                    ?>
                     <tr style="vertical-align: middle;">
-                        <td>1</td>
-                        <td>Turnamen Futsal PT. Sinar Mutiara Cakrabuana 2023</td>
+                        <td><?= $no++ ?></td>
+                        <td><?= $data['title'] ?></td>
                         <td>Sport</td>
                         <td>
-                            <a href="edit-post.php" class="btn btn-warning">Edit</a>
-                            <a href="#" class="btn btn-danger">Delete</a>
-</td>
+                            <a href="edit-post.php?post_id=<?= $data['id']?>" class="btn btn-warning">Edit</a>
+                            <a href="php/post.php?action=delete&id=<?= $data['id'] ?>" onclick="return confirm('Apakah anda yakin untuk menghapusnya?')" class="btn btn-danger">Delete</a>
+                        </td>
                     </tr>
-                    <tr style="vertical-align: middle;">
-                        <td>2</td>
-                        <td>Mini Exhibition</td>
-                        <td>Exhibition</td>
-                        <td>
-                            <a href="edit-post.php" class="btn btn-warning">Edit</a>
-                            <a href="#" class="btn btn-danger">Delete</a>
-</td>
-                    </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
